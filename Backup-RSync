@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ARQUIVOS="/var/lib/vz/dump"
+
+BACKUPS="/root/Backups"
+
+DATA=$(date +%Y-%m-%d-%HH-%MM)
+
+echo "Criando pasta com data e hora do backup"
+mkdir $BACKUPS/"$DATA"
+
+echo "Iniciando backup dos arquivos em $DATA"
+sleep 5
+rsync -pavz $ARQUIVOS/* $BACKUPS/"$DATA"
+echo "Backup realizado com sucesso!"
+
+echo "Removendo backups de 2 dias atras"
+find $BACKUPS/ -ctime +2 -exec rm -rf {} \;
+echo "Concluido"
+sleep 2
